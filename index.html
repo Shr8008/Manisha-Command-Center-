@@ -1,0 +1,2702 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#171717">
+<title>MANISHA — 100 Day Command Center</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f2eee6;color:#181818;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{position:sticky;top:0;z-index:10;background:#171717;color:#fff;padding:14px;box-shadow:0 2px 10px #0003}.head,main{max-width:950px;margin:auto}.head{display:flex;justify-content:space-between;gap:10px;align-items:center}h1{margin:0;font-size:20px}.sub,.small{color:#aaa;font-size:12px}.sub{margin-top:2px}#saveState{font-size:11px;font-weight:900;white-space:nowrap}main{padding:10px 10px 80px}section{background:#fffdf8;border:1px solid #d8d0c3;border-radius:14px;padding:15px;margin:12px 0;box-shadow:0 1px 3px #0001}h2{margin:0 0 10px;font-size:19px}.quote{background:#eee8dc;border-left:4px solid #222;border-radius:8px;padding:11px;font-weight:900;margin:10px 0}.note{background:#f5e9d6;border-radius:9px;padding:11px;margin-top:10px;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-weight:750;margin:7px 0 4px}input,textarea,select{width:100%;border:1px solid #c8c0b4;background:#fff;color:#181818;border-radius:8px;padding:10px;font:inherit}textarea{min-height:80px;resize:vertical}button{border:0;border-radius:8px;padding:10px 13px;background:#222;color:#fff;font-weight:900;cursor:pointer}button:active{transform:scale(.98)}button.alt{background:#e5ded2;color:#222}button.red{background:#963c3c}.btns{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0}.stat{border:1px solid #ddd4c6;border-radius:9px;text-align:center;padding:8px;font-size:10px}.stat b{display:block;font-size:21px}.progress{height:10px;border-radius:20px;overflow:hidden;background:#ddd6cb}.progress span{display:block;width:0;height:100%;background:#222;transition:width .25s}.task{display:grid;grid-template-columns:auto 1fr auto;gap:8px;border:1px solid #ddd4c6;border-radius:9px;padding:8px;margin:6px 0}.task input[type=checkbox]{width:18px;height:18px;margin-top:5px}.task textarea{min-height:50px;margin-top:5px}.task button{padding:6px 9px;font-size:11px;background:#e5ded2;color:#222;height:max-content}.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.mode{border:1px solid #ddd4c6;border-radius:9px;padding:10px;cursor:pointer}.mode.active{outline:3px solid #222;background:#eee8dc}.micro,.capture,.reminder{border:1px solid #ddd4c6;border-radius:9px;padding:9px;margin:7px 0}.microtop{display:flex;justify-content:space-between;gap:10px;align-items:center}.capture{white-space:pre-wrap}.reminder{display:grid;grid-template-columns:auto 1fr auto;gap:8px}.lock{background:#171717;color:#fff;padding:18px;border-radius:12px;text-align:center}.locktime{font-size:48px;font-weight:950}#cloudStatus{margin-top:10px;padding:9px;border-radius:8px;background:#eee8dc;word-break:break-word}.ok{color:#237a3a;font-weight:900}.error{color:#a02d2d;font-weight:900}#toast{display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#171717;color:#fff;padding:10px 14px;border-radius:9px;font-weight:900;z-index:100;max-width:90%;text-align:center}@media(max-width:650px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.modes{grid-template-columns:1fr 1fr}.task{grid-template-columns:auto 1fr}.task button{grid-column:2}.head{align-items:flex-start}h1{font-size:17px}}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="head">
+<div>
+<h1>MANISHA — 100 DAY COMMAND CENTER</h1>
+<div class="sub">FINISH MANISHA. RECOVER FAST. KEEP MOVING.</div>
+</div>
+<div id="saveState">READY</div>
+</div>
+</header>
+
+<main>
+
+<section>
+<h2>100-Day Mission</h2>
+
+<div class="quote">
+ONE BAD MOMENT DOES NOT CANCEL THE DAY. THE NEXT RETURN IS.
+</div>
+
+<div class="stats">
+<div class="stat"><b id="dayNow">1</b>CURRENT DAY</div>
+<div class="stat"><b id="daysLeft">99</b>DAYS LEFT</div>
+<div class="stat"><b id="daysMoved">0</b>MOVED</div>
+<div class="stat"><b id="returns">0</b>RETURNS</div>
+</div>
+
+<div class="progress">
+<span id="progressBar"></span>
+</div>
+
+<p id="progressText" class="small">
+0 / 100 days moved
+</p>
+
+<div class="grid">
+
+<div>
+<label>Date</label>
+<input id="date" type="date">
+</div>
+
+<div>
+<label>Day</label>
+<input id="day" type="number" min="1" max="100" value="1">
+</div>
+
+</div>
+
+<div class="btns">
+<button id="saveBtn">SAVE NOW</button>
+<button class="alt" id="nextBtn">NEXT DAY</button>
+<button class="alt" id="exportBtn">EXPORT ALL DATA</button>
+<button class="alt" id="importBtn">IMPORT BACKUP</button>
+<button class="red" id="clearBtn">CLEAR ALL</button>
+</div>
+
+<input id="backupFile" type="file" accept=".json" hidden>
+
+<div class="note">
+<b>Auto-save:</b> changes are saved locally after a short delay.
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Today's 10 Tasks</h2>
+
+<p class="small">
+Exactly 10 slots. Use them for screenplay work, research, health, admin, or anything necessary for today's mission.
+</p>
+
+<div id="tasks"></div>
+
+<div class="grid">
+<input id="quickTask" placeholder="Quick add a task">
+<button id="addTaskBtn">ADD TASK</button>
+</div>
+
+</section>
+
+
+<section>
+
+<h2>10-Day Micro Goal</h2>
+
+<div class="grid">
+
+<div>
+<label>Goal</label>
+<input id="microGoal" placeholder="What exactly are you trying to finish?">
+</div>
+
+<div>
+<label>Start date</label>
+<input id="microStart" type="date">
+</div>
+
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+
+<div id="microCount" style="font-size:27px;font-weight:950">
+NO ACTIVE GOAL
+</div>
+
+<button class="alt" id="microStartBtn">
+START / RESET
+</button>
+
+</div>
+
+<label>Today's update</label>
+
+<textarea
+id="microToday"
+placeholder="What actually happened today?"
+></textarea>
+
+<div id="microDays"></div>
+
+</section>
+
+
+<section>
+
+<h2>Quick Capture</h2>
+
+<p class="small">
+Idea / thought / problem / scene / realization / anything worth recording.
+</p>
+
+<textarea id="quickCapture"></textarea>
+
+<div class="btns">
+<button id="captureBtn">SAVE NOTE</button>
+</div>
+
+<div id="captures"></div>
+
+</section>
+
+
+<section>
+
+<h2>When Things Go Wrong</h2>
+
+<div class="grid">
+
+<div>
+<label>What happened?</label>
+<textarea id="wrong"></textarea>
+</div>
+
+<div>
+<label>What happened right before?</label>
+<textarea id="trigger"></textarea>
+</div>
+
+<div>
+<label>What did I do next?</label>
+<textarea id="escape"></textarea>
+</div>
+
+<div>
+<label>Did I return?</label>
+<select id="returned">
+<option value=""></option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+</div>
+
+<label>
+How did I get back — or fall apart?
+</label>
+
+<textarea id="recovery"></textarea>
+
+</section>
+
+
+<section>
+
+<h2>Manisha Modes</h2>
+
+<p class="small">
+When your brain wants something different, change the way you are working before changing the thing you are working on.
+</p>
+
+<div class="modes">
+
+<div class="mode" data-mode="Detective">
+<b>DETECTIVE</b><br>
+<span class="small">Find what is true.</span>
+</div>
+
+<div class="mode" data-mode="Architect">
+<b>ARCHITECT</b><br>
+<span class="small">Find where it goes.</span>
+</div>
+
+<div class="mode" data-mode="Actor">
+<b>ACTOR</b><br>
+<span class="small">Find behaviour.</span>
+</div>
+
+<div class="mode" data-mode="Hunter">
+<b>HUNTER</b><br>
+<span class="small">Find what is weak.</span>
+</div>
+
+<div class="mode" data-mode="Writer">
+<b>WRITER</b><br>
+<span class="small">Put it on the page.</span>
+</div>
+
+<div class="mode" data-mode="Editor">
+<b>EDITOR</b><br>
+<span class="small">Cut and sharpen.</span>
+</div>
+
+</div>
+
+<label>Mode note</label>
+
+<textarea
+id="modeNote"
+placeholder="What did this mode uncover?"
+></textarea>
+
+</section>
+
+
+<section>
+
+<h2>Body + Mind</h2>
+
+<div class="grid">
+
+<div>
+<label>Walk / movement</label>
+<input id="walk" placeholder="e.g. 30 min">
+</div>
+
+<div>
+<label>Strength</label>
+<input id="strength" placeholder="e.g. session / rest">
+</div>
+
+<div>
+<label>Sleep</label>
+<input id="sleep" placeholder="e.g. 7.5 h">
+</div>
+
+<div>
+<label>Food</label>
+<input id="food" placeholder="How did you fuel yourself?">
+</div>
+
+</div>
+
+<label>State</label>
+
+<textarea
+id="state"
+placeholder="Energy, mood, mental state, anything relevant."
+></textarea>
+
+</section>
+
+
+<section>
+
+<h2>End of Day — 60 Seconds</h2>
+
+<label>
+<input
+id="manishaMoved"
+type="checkbox"
+style="width:auto"
+>
+MANISHA MOVED TODAY
+</label>
+
+<label>
+<input
+id="returnedToday"
+type="checkbox"
+style="width:auto"
+>
+I RETURNED AFTER A DERAILMENT
+</label>
+
+<label>
+End note
+</label>
+
+<textarea
+id="endNote"
+placeholder="What moved? Where did you escape? Did you return? What will you change tomorrow?"
+></textarea>
+
+<div class="btns">
+<button id="completeBtn">
+COMPLETE DAY
+</button>
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Reminders + Alarms</h2>
+
+<p class="small">
+Browser notifications require permission and may depend on browser/device settings.
+</p>
+
+<div class="grid">
+
+<input
+id="reminderText"
+placeholder="Reminder text"
+>
+
+<input
+id="reminderTime"
+type="time"
+>
+
+</div>
+
+<div class="btns">
+
+<button
+class="alt"
+id="notifyBtn"
+>
+ENABLE NOTIFICATIONS
+</button>
+
+<button id="reminderBtn">
+ADD REMINDER
+</button>
+
+</div>
+
+<div id="reminders"></div>
+
+</section>
+
+
+<section>
+
+<h2>Cold Turkey Focus Mode</h2>
+
+<p class="small">
+This is a page-level focus timer. HTML cannot block other Android apps or system-wide internet.
+</p>
+
+<div class="grid">
+
+<input
+id="focusMinutes"
+type="number"
+min="1"
+max="180"
+value="25"
+>
+
+<input
+id="focusLabel"
+placeholder="What am I working on?"
+>
+
+</div>
+
+<div class="lock">
+
+<div
+id="focusClock"
+class="locktime"
+>
+25:00
+</div>
+
+<div id="focusStatus">
+Not active.
+</div>
+
+<div
+class="btns"
+style="justify-content:center"
+>
+
+<button id="focusStartBtn">
+START FOCUS
+</button>
+
+<button
+class="red"
+id="focusStopBtn"
+>
+STOP
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Online Save / Cloud Sync</h2>
+
+<p class="small">
+Supabase REST sync. Publishable keys are intended for browser use when RLS/policies are configured. Never use a secret key here.
+</p>
+
+<div class="note">
+<b>Setup:</b>
+table <b>MANISHA</b> ·
+ID column <b>Id</b> ·
+data column <b>Payload</b>
+</div>
+
+<label>
+Supabase Project URL
+</label>
+
+<input
+id="cloudUrl"
+value="https://wkegjirfzfaqmhkccof.supabase.co"
+>
+
+<label>
+Publishable Key
+</label>
+
+<input
+id="cloudKey"
+type="password"
+placeholder="sb_publishable_..."
+>
+
+<label>
+Record ID
+</label>
+
+<input
+id="cloudId"
+value="manisha-7k29-p4x91"
+>
+
+<div class="btns">
+
+<button
+class="alt"
+id="testCloudBtn"
+>
+TEST CLOUD
+</button>
+
+<button
+id="uploadCloudBtn"
+>
+UPLOAD ALL
+</button>
+
+<button
+class="alt"
+id="downloadCloudBtn"
+>
+DOWNLOAD ALL
+</button>
+
+</div>
+
+<div id="cloudStatus">
+Cloud not tested yet.
+</div>
+
+</section>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+
+window.MANISHA=(function(){
+
+const STORE="MANISHA_COMMAND_CENTER_FINAL";
+
+const CLOUD_TABLE="MANISHA";
+
+const CLOUD_ID="Id";
+
+const CLOUD_PAYLOAD="Payload";
+
+
+let db={
+days:{},
+tasks:{},
+captures:[],
+micro:null,
+reminders:[],
+settings:{}
+};
+
+
+let currentMode="";
+
+let saveTimer=null;
+
+let focusTimer=null;
+
+let focusEnd=0;
+
+
+const $=
+id=>
+document.getElementById(id);
+
+
+const today=()=>{
+
+const d=new Date();
+
+d.setMinutes(
+d.getMinutes() -
+d.getTimezoneOffset()
+);
+
+return d
+.toISOString()
+.slice(0,10);
+
+};
+
+
+const addDays=(s,n)=>{
+
+const d=
+new Date(
+s+"T00:00:00"
+);
+
+d.setDate(
+d.getDate()+n
+);
+
+return d
+.toISOString()
+.slice(0,10);
+
+};
+
+
+function toast(t){
+
+const b=
+$("toast");
+
+b.textContent=
+t;
+
+b.style.display=
+"block";
+
+clearTimeout(
+b._timer
+);
+
+b._timer=
+setTimeout(
+()=>b.style.display="none",
+1800
+);
+
+}
+
+
+function dayNumber(){
+
+let n=
+parseInt(
+$("day").value,
+10
+);
+
+if(!Number.isFinite(n))
+n=1;
+
+n=
+Math.max(
+1,
+Math.min(
+100,
+n
+)
+);
+
+$("day").value=
+n;
+
+return n;
+
+}
+
+
+function readLocal(){
+
+try{
+
+const r=
+localStorage.getItem(
+STORE
+);
+
+if(r)
+
+db=
+Object.assign(
+{
+days:{},
+tasks:{},
+captures:[],
+micro:null,
+reminders:[],
+settings:{}
+},
+JSON.parse(r)
+);
+
+}catch(e){
+
+console.log(
+"Local read error",
+e
+);
+
+}
+
+}
+
+
+function writeLocal(){
+
+try{
+
+localStorage.setItem(
+STORE,
+JSON.stringify(db)
+);
+
+$("saveState").textContent=
+"SAVED ✓";
+
+return true;
+
+}catch(e){
+
+$("saveState").textContent=
+"LOCAL SAVE BLOCKED";
+
+return false;
+
+}
+
+}
+
+
+const dayFields=[
+
+"date",
+"wrong",
+"trigger",
+"escape",
+"returned",
+"recovery",
+"modeNote",
+"walk",
+"strength",
+"sleep",
+"food",
+"state",
+"manishaMoved",
+"returnedToday",
+"endNote"
+
+];
+
+
+function collectDay(){
+
+const d={
+
+mode:currentMode,
+
+microToday:
+$("microToday").value,
+
+updatedAt:
+new Date().toISOString()
+
+};
+
+dayFields.forEach(
+id=>{
+
+const e=
+$(id);
+
+if(e)
+
+d[id]=
+e.type==="checkbox"
+?
+e.checked
+:
+e.value;
+
+}
+);
+
+return d;
+
+}
+
+
+function restoreDay(d){
+
+dayFields.forEach(
+id=>{
+
+const e=
+$(id);
+
+if(
+!e ||
+!(id in d)
+)
+return;
+
+e.type==="checkbox"
+?
+e.checked=!!d[id]
+:
+e.value=d[id]||"";
+
+}
+);
+
+$("microToday").value=
+d.microToday||"";
+
+setMode(
+d.mode||""
+);
+
+}
+
+
+function clearDay(){
+
+dayFields.forEach(
+id=>{
+
+const e=
+$(id);
+
+if(e)
+
+e.type==="checkbox"
+?
+e.checked=false
+:
+e.value="";
+
+}
+);
+
+$("date").value=
+today();
+
+$("microToday").value=
+"";
+
+setMode("");
+
+}
+
+
+function saveDay(
+silent=false
+){
+
+db.days[
+dayNumber()
+]=
+collectDay();
+
+saveCloudSettings();
+
+const ok=
+writeLocal();
+
+updateStats();
+
+if(!silent)
+
+toast(
+ok
+?
+`Day ${dayNumber()} saved ✓`
+:
+"Browser blocked local storage"
+);
+
+}
+
+
+function scheduleSave(){
+
+$("saveState").textContent=
+"SAVING…";
+
+clearTimeout(
+saveTimer
+);
+
+saveTimer=
+setTimeout(
+()=>saveDay(true),
+450
+);
+
+}
+
+
+function loadDay(){
+
+const n=
+dayNumber();
+
+db.days[n]
+?
+restoreDay(
+db.days[n]
+)
+:
+clearDay();
+
+renderAll();
+
+$("saveState").textContent=
+"READY";
+
+}
+
+
+function nextDay(){
+
+saveDay(true);
+
+$("day").value=
+Math.min(
+100,
+dayNumber()+1
+);
+
+loadDay();
+
+toast(
+`Day ${dayNumber()} ready`
+);
+
+}
+
+
+function updateStats(){
+
+let moved=0;
+
+let returned=0;
+
+Object.values(
+db.days
+)
+.forEach(
+d=>{
+
+if(
+d?.manishaMoved
+)
+moved++;
+
+if(
+d?.returnedToday ||
+d?.returned==="Yes"
+)
+returned++;
+
+}
+);
+
+const n=
+dayNumber();
+
+$("dayNow").textContent=
+n;
+
+$("daysLeft").textContent=
+Math.max(
+0,
+100-n
+);
+
+$("daysMoved").textContent=
+moved;
+
+$("returns").textContent=
+returned;
+
+$("progressText").textContent=
+`${moved} / 100 days moved`;
+
+$("progressBar").style.width=
+Math.min(
+100,
+moved
+)+"%";
+
+}
+
+
+function ensureTasks(){
+
+const n=
+dayNumber();
+
+if(
+!Array.isArray(
+db.tasks[n]
+)
+)
+
+db.tasks[n]=[];
+
+while(
+db.tasks[n].length<10
+)
+
+db.tasks[n].push(
+{
+title:"",
+done:false,
+note:""
+}
+);
+
+db.tasks[n]=
+db.tasks[n].slice(
+0,
+10
+);
+
+}
+
+
+function renderTasks(){
+
+ensureTasks();
+
+const box=
+$("tasks");
+
+box.innerHTML=
+"";
+
+db.tasks[
+dayNumber()
+]
+.forEach(
+(task,i)=>{
+
+const row=
+document.createElement(
+"div"
+);
+
+row.className=
+"task";
+
+const c=
+document.createElement(
+"input"
+);
+
+c.type=
+"checkbox";
+
+c.checked=
+!!task.done;
+
+const inside=
+document.createElement(
+"div"
+);
+
+const title=
+document.createElement(
+"input"
+);
+
+const note=
+document.createElement(
+"textarea"
+);
+
+const clear=
+document.createElement(
+"button"
+);
+
+title.placeholder=
+`Task ${i+1}`;
+
+title.value=
+task.title||"";
+
+note.placeholder=
+"Optional result / note...";
+
+note.value=
+task.note||"";
+
+clear.textContent=
+"CLEAR";
+
+
+c.onchange=()=>{
+
+task.done=
+c.checked;
+
+writeLocal();
+
+updateStats();
+
+};
+
+
+title.oninput=()=>{
+
+task.title=
+title.value;
+
+scheduleSave();
+
+};
+
+
+note.oninput=()=>{
+
+task.note=
+note.value;
+
+scheduleSave();
+
+};
+
+
+clear.onclick=()=>{
+
+task.title=
+"";
+
+task.note=
+"";
+
+task.done=
+false;
+
+writeLocal();
+
+renderTasks();
+
+};
+
+
+inside.append(
+title,
+note
+);
+
+row.append(
+c,
+inside,
+clear
+);
+
+box.append(
+row
+);
+
+}
+);
+
+}
+
+
+function addTask(){
+
+const text=
+$("quickTask")
+.value
+.trim();
+
+if(!text)
+
+return toast(
+"Type a task first"
+);
+
+ensureTasks();
+
+const t=
+db.tasks[
+dayNumber()
+]
+.find(
+x=>!x.title
+);
+
+if(!t)
+
+return toast(
+"All 10 slots are full"
+);
+
+t.title=
+text;
+
+$("quickTask").value=
+"";
+
+writeLocal();
+
+renderTasks();
+
+toast(
+"Task added ✓"
+);
+
+}
+
+
+function ensureMicro(){
+
+if(!db.micro)
+return;
+
+if(
+!Array.isArray(
+db.micro.days
+)
+)
+
+db.micro.days=[];
+
+while(
+db.micro.days.length<10
+){
+
+const i=
+db.micro.days.length;
+
+db.micro.days.push({
+
+date:
+addDays(
+db.micro.start,
+i
+),
+
+done:false,
+
+update:""
+
+});
+
+}
+
+db.micro.days=
+db.micro.days.slice(
+0,
+10
+);
+
+}
+
+
+function microIndex(){
+
+if(!db.micro)
+return 0;
+
+const a=
+new Date(
+db.micro.start+
+"T00:00:00"
+);
+
+const b=
+new Date(
+today()+
+"T00:00:00"
+);
+
+return Math.max(
+0,
+Math.min(
+9,
+Math.floor(
+(b-a)/
+86400000
+)
+)
+);
+
+}
+
+
+function renderMicro(){
+
+const box=
+$("microDays");
+
+box.innerHTML=
+"";
+
+if(!db.micro){
+
+$("microCount").textContent=
+"NO ACTIVE GOAL";
+
+return;
+
+}
+
+ensureMicro();
+
+const idx=
+microIndex();
+
+const done=
+db.micro.days.filter(
+x=>x.done
+).length;
+
+$("microGoal").value=
+db.micro.goal||"";
+
+$("microStart").value=
+db.micro.start||today();
+
+$("microCount").textContent=
+`${done}/10`;
+
+$("microToday").value=
+db.micro.days[idx]?.update||"";
+
+db.micro.days.forEach(
+(d,i)=>{
+
+const div=
+document.createElement(
+"div"
+);
+
+div.className=
+"micro";
+
+div.innerHTML=
+`<div class="microtop"><b>Day ${i+1} · ${d.date}</b><label style="margin:0"><input type="checkbox" ${d.done?"checked":""} style="width:auto"> Done</label></div><div class="small">${d.update?d.update.replace(/</g,"&lt;"):"No update yet."}</div>`;
+
+div
+.querySelector(
+"input"
+)
+.onchange=
+e=>{
+
+d.done=
+e.target.checked;
+
+writeLocal();
+
+renderMicro();
+
+};
+
+box.append(
+div
+);
+
+}
+);
+
+}
+
+
+function startMicro(){
+
+const goal=
+$("microGoal")
+.value
+.trim();
+
+const start=
+$("microStart")
+.value
+||
+today();
+
+if(!goal)
+
+return toast(
+"Enter a micro goal first"
+);
+
+db.micro={
+goal,
+start,
+days:[]
+};
+
+ensureMicro();
+
+writeLocal();
+
+renderMicro();
+
+toast(
+"10-day goal started ✓"
+);
+
+}
+
+
+function captureNote(){
+
+const text=
+$("quickCapture")
+.value
+.trim();
+
+if(!text)
+
+return toast(
+"Write something first"
+);
+
+db.captures.unshift(
+{
+date:
+new Date()
+.toISOString(),
+
+day:
+dayNumber(),
+
+text
+}
+);
+
+$("quickCapture").value=
+"";
+
+writeLocal();
+
+renderCaptures();
+
+toast(
+"Note saved ✓"
+);
+
+}
+
+
+function renderCaptures(){
+
+const box=
+$("captures");
+
+box.innerHTML=
+"";
+
+db.captures
+.slice(
+0,
+30
+)
+.forEach(
+x=>{
+
+const d=
+document.createElement(
+"div"
+);
+
+d.className=
+"capture";
+
+d.textContent=
+`Day ${x.day} — ${new Date(x.date).toLocaleString()}
+${x.text}`;
+
+box.append(
+d
+);
+
+}
+);
+
+}
+
+
+function setMode(m){
+
+currentMode=
+m||"";
+
+document
+.querySelectorAll(
+".mode"
+)
+.forEach(
+e=>
+e.classList.toggle(
+"active",
+e.dataset.mode===
+currentMode
+)
+);
+
+}
+
+
+function addReminder(){
+
+const text=
+$("reminderText")
+.value
+.trim();
+
+const time=
+$("reminderTime")
+.value;
+
+if(
+!text ||
+!time
+)
+
+return toast(
+"Enter reminder text and time"
+);
+
+db.reminders.push(
+{
+id:
+Date.now(),
+
+text,
+
+time,
+
+on:true
+}
+);
+
+$("reminderText").value=
+"";
+
+$("reminderTime").value=
+"";
+
+writeLocal();
+
+renderReminders();
+
+toast(
+"Reminder added ✓"
+);
+
+}
+
+
+function renderReminders(){
+
+const box=
+$("reminders");
+
+box.innerHTML=
+"";
+
+db.reminders.forEach(
+r=>{
+
+const d=
+document.createElement(
+"div"
+);
+
+d.className=
+"reminder";
+
+const c=
+document.createElement(
+"input"
+);
+
+c.type=
+"checkbox";
+
+c.checked=
+!!r.on;
+
+c.onchange=()=>{
+
+r.on=
+c.checked;
+
+writeLocal();
+
+};
+
+
+const t=
+document.createElement(
+"div"
+);
+
+t.innerHTML=
+`<b>${r.time}</b><br>${r.text.replace(/</g,"&lt;")}`;
+
+
+const b=
+document.createElement(
+"button"
+);
+
+b.className=
+"alt";
+
+b.textContent=
+"DELETE";
+
+b.onclick=()=>{
+
+db.reminders=
+db.reminders.filter(
+x=>x.id!==r.id
+);
+
+writeLocal();
+
+renderReminders();
+
+};
+
+
+d.append(
+c,
+t,
+b
+);
+
+box.append(
+d
+);
+
+}
+);
+
+}
+
+
+async function enableNotifications(){
+
+if(
+!("Notification" in window)
+)
+
+return toast(
+"Notifications are not supported here"
+);
+
+const p=
+await Notification
+.requestPermission();
+
+toast(
+p==="granted"
+?
+"Notifications enabled ✓"
+:
+"Notification permission not granted"
+);
+
+}
+
+
+function checkReminders(){
+
+if(
+!("Notification" in window) ||
+Notification.permission!=="granted"
+)
+return;
+
+const now=
+new Date();
+
+const time=
+now.toTimeString()
+.slice(
+0,
+5
+);
+
+const key=
+today()+" "+time;
+
+db.reminders.forEach(
+r=>{
+
+if(
+r.on &&
+r.time===time &&
+r.last!==key
+){
+
+r.last=
+key;
+
+new Notification(
+"MANISHA",
+{
+body:r.text
+}
+);
+
+writeLocal();
+
+}
+
+}
+);
+
+}
+
+
+function startFocus(){
+
+stopFocus(true);
+
+let m=
+Math.max(
+1,
+Math.min(
+180,
+parseInt(
+$("focusMinutes").value,
+10
+)||25
+)
+);
+
+focusEnd=
+Date.now()+
+m*60000;
+
+$("focusStatus").textContent=
+"FOCUS ACTIVE";
+
+focusTimer=
+setInterval(
+updateFocus,
+250
+);
+
+updateFocus();
+
+toast(
+"Focus started"
+);
+
+}
+
+
+function updateFocus(){
+
+if(!focusEnd)
+return;
+
+const left=
+Math.max(
+0,
+focusEnd-Date.now()
+);
+
+const s=
+Math.ceil(
+left/1000
+);
+
+const m=
+Math.floor(
+s/60
+);
+
+const sec=
+s%60;
+
+$("focusClock").textContent=
+`${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+
+if(left<=0){
+
+stopFocus(true);
+
+$("focusStatus").textContent=
+"FOCUS COMPLETE ✓";
+
+toast(
+"Focus complete ✓"
+);
+
+}
+
+}
+
+
+function stopFocus(
+silent=false
+){
+
+clearInterval(
+focusTimer
+);
+
+focusTimer=
+null;
+
+focusEnd=
+0;
+
+if(
+$("focusClock")
+)
+
+$("focusClock").textContent=
+`${String(
+parseInt(
+$("focusMinutes").value,
+10
+)||25
+).padStart(
+2,
+"0"
+)}:00`;
+
+$("focusStatus").textContent=
+"Not active.";
+
+if(!silent)
+
+toast(
+"Focus stopped"
+);
+
+}
+
+
+function saveCloudSettings(){
+
+db.settings=
+Object.assign(
+{},
+db.settings,
+{
+
+cloudUrl:
+$("cloudUrl")
+.value
+.trim(),
+
+cloudKey:
+$("cloudKey")
+.value
+.trim(),
+
+cloudId:
+$("cloudId")
+.value
+.trim()
+
+}
+);
+
+}
+
+
+function restoreCloudSettings(){
+
+const s=
+db.settings||{};
+
+if(s.cloudUrl)
+
+$("cloudUrl").value=
+s.cloudUrl;
+
+if(s.cloudKey)
+
+$("cloudKey").value=
+s.cloudKey;
+
+if(s.cloudId)
+
+$("cloudId").value=
+s.cloudId;
+
+}
+
+
+async function cloudRequest(
+method,
+body
+){
+
+const base=
+$("cloudUrl")
+.value
+.trim()
+.replace(
+/\/+$/,
+""
+);
+
+const key=
+$("cloudKey")
+.value
+.trim();
+
+const id=
+$("cloudId")
+.value
+.trim();
+
+if(!base)
+
+throw new Error(
+"Supabase Project URL is missing."
+);
+
+if(!key)
+
+throw new Error(
+"Publishable key is missing."
+);
+
+if(!id)
+
+throw new Error(
+"Record ID is missing."
+);
+
+let endpoint=
+`${base}/rest/v1/${CLOUD_TABLE}`;
+
+let headers={
+apikey:key,
+Accept:
+"application/json"
+};
+
+let options={
+method,
+headers
+};
+
+
+if(
+method==="GET"
+){
+
+endpoint+=
+`?${CLOUD_ID}=eq.${encodeURIComponent(id)}&select=${CLOUD_ID},${CLOUD_PAYLOAD}`;
+
+}else{
+
+headers[
+"Content-Type"
+]=
+"application/json";
+
+headers.Prefer=
+"resolution=merge-duplicates,return=representation";
+
+options.body=
+JSON.stringify(
+{
+Id:id,
+Payload:db
+}
+);
+
+endpoint+=
+`?on_conflict=${CLOUD_ID}`;
+
+}
+
+
+let response;
+
+try{
+
+response=
+await fetch(
+endpoint,
+options
+);
+
+}catch(e){
+
+throw new Error(
+`NETWORK/CORS ERROR — browser could not complete the Supabase request. Origin: ${location.origin} | Endpoint: ${endpoint} | ${e.name||"Error"}: ${e.message||String(e)}`
+);
+
+}
+
+
+const text=
+await response.text();
+
+let data=
+null;
+
+try{
+
+data=
+text
+?
+JSON.parse(text)
+:
+null;
+
+}catch(e){
+
+data=
+text;
+
+}
+
+
+if(
+!response.ok
+){
+
+let msg=
+`HTTP ${response.status}`;
+
+if(data?.message)
+
+msg+=
+` — ${data.message}`;
+
+else if(data?.error)
+
+msg+=
+` — ${data.error}`;
+
+else if(
+typeof data==="string" &&
+data
+)
+
+msg+=
+` — ${data}`;
+
+throw new Error(
+msg
+);
+
+}
+
+return data;
+
+}
+
+
+async function testCloud(){
+
+saveCloudSettings();
+
+const st=
+$("cloudStatus");
+
+st.className=
+"";
+
+st.textContent=
+"TESTING SUPABASE…";
+
+try{
+
+const r=
+await cloudRequest(
+"GET"
+);
+
+st.className=
+"ok";
+
+st.textContent=
+Array.isArray(r)&&r.length
+?
+"✓ CLOUD WORKS — MANISHA record found."
+:
+"✓ CLOUD WORKS — connection successful. No record exists yet. You can now use UPLOAD ALL.";
+
+toast(
+"Cloud connected ✓"
+);
+
+}catch(e){
+
+st.className=
+"error";
+
+st.textContent=
+"CLOUD ERROR: "+
+e.message;
+
+toast(
+"Cloud test failed"
+);
+
+}
+
+}
+
+
+async function uploadCloud(){
+
+saveDay(true);
+
+saveCloudSettings();
+
+const st=
+$("cloudStatus");
+
+st.className=
+"";
+
+st.textContent=
+"UPLOADING ALL MANISHA DATA…";
+
+try{
+
+await cloudRequest(
+"POST",
+db
+);
+
+st.className=
+"ok";
+
+st.textContent=
+"✓ ALL MANISHA DATA UPLOADED SUCCESSFULLY.";
+
+toast(
+"Uploaded ✓"
+);
+
+}catch(e){
+
+st.className=
+"error";
+
+st.textContent=
+"CLOUD ERROR: "+
+e.message;
+
+toast(
+"Upload failed"
+);
+
+}
+
+}
+
+
+async function downloadCloud(){
+
+const st=
+$("cloudStatus");
+
+st.className=
+"";
+
+st.textContent=
+"DOWNLOADING…";
+
+try{
+
+const r=
+await cloudRequest(
+"GET"
+);
+
+if(
+!Array.isArray(r) ||
+!r.length
+)
+
+throw new Error(
+"No cloud record exists for this Record ID yet."
+);
+
+if(
+!r[0].Payload
+)
+
+throw new Error(
+"Cloud record exists, but Payload is empty."
+);
+
+db=
+Object.assign(
+{
+days:{},
+tasks:{},
+captures:[],
+micro:null,
+reminders:[],
+settings:{}
+},
+r[0].Payload
+);
+
+restoreCloudSettings();
+
+writeLocal();
+
+loadDay();
+
+st.className=
+"ok";
+
+st.textContent=
+"✓ ALL MANISHA DATA DOWNLOADED SUCCESSFULLY.";
+
+toast(
+"Downloaded ✓"
+);
+
+}catch(e){
+
+st.className=
+"error";
+
+st.textContent=
+"CLOUD ERROR: "+
+e.message;
+
+toast(
+"Download failed"
+);
+
+}
+
+}
+
+
+function exportData(){
+
+saveDay(true);
+
+const blob=
+new Blob(
+[
+JSON.stringify(
+db,
+null,
+2
+)
+],
+{
+type:
+"application/json"
+}
+);
+
+const url=
+URL.createObjectURL(
+blob
+);
+
+const a=
+document.createElement(
+"a"
+);
+
+a.href=
+url;
+
+a.download=
+"MANISHA-COMPLETE-BACKUP.json";
+
+document.body.append(
+a
+);
+
+a.click();
+
+a.remove();
+
+setTimeout(
+()=>
+URL.revokeObjectURL(url),
+1000
+);
+
+toast(
+"Backup exported ✓"
+);
+
+}
+
+
+function importData(file){
+
+if(!file)
+return;
+
+const r=
+new FileReader();
+
+r.onload=()=>{
+
+try{
+
+const x=
+JSON.parse(
+r.result
+);
+
+if(
+!x ||
+!x.days
+)
+
+throw 0;
+
+db=
+Object.assign(
+{
+days:{},
+tasks:{},
+captures:[],
+micro:null,
+reminders:[],
+settings:{}
+},
+x
+);
+
+writeLocal();
+
+restoreCloudSettings();
+
+loadDay();
+
+toast(
+"Backup imported ✓"
+);
+
+}catch(e){
+
+alert(
+"This is not a valid MANISHA backup."
+);
+
+}
+
+};
+
+r.readAsText(
+file
+);
+
+}
+
+
+function completeDay(){
+
+$("manishaMoved").checked=
+true;
+
+$("returnedToday").checked=
+true;
+
+saveDay(false);
+
+toast(
+"Day completed + saved ✓"
+);
+
+}
+
+
+function clearAll(){
+
+if(
+!confirm(
+"DELETE ALL MANISHA DATA FROM THIS BROWSER?\n\nThis does NOT delete your Supabase cloud record."
+)
+)
+return;
+
+localStorage.removeItem(
+STORE
+);
+
+location.reload();
+
+}
+
+
+function renderAll(){
+
+renderTasks();
+
+renderMicro();
+
+renderCaptures();
+
+renderReminders();
+
+updateStats();
+
+}
+
+
+function init(){
+
+readLocal();
+
+restoreCloudSettings();
+
+if(
+!$("date").value
+)
+$("date").value=
+today();
+
+if(
+!$("microStart").value
+)
+$("microStart").value=
+today();
+
+loadDay();
+
+
+dayFields.forEach(
+id=>{
+
+const e=
+$(id);
+
+if(e){
+
+e.addEventListener(
+"input",
+scheduleSave
+);
+
+e.addEventListener(
+"change",
+scheduleSave
+);
+
+}
+
+}
+);
+
+
+$("microGoal")
+.addEventListener(
+"input",
+()=>{
+
+if(db.micro){
+
+db.micro.goal=
+$("microGoal").value;
+
+scheduleSave();
+
+}
+
+}
+);
+
+
+$("microStart")
+.addEventListener(
+"change",
+()=>{
+
+if(db.micro){
+
+db.micro.start=
+$("microStart").value;
+
+ensureMicro();
+
+scheduleSave();
+
+renderMicro();
+
+}
+
+}
+);
+
+
+$("microToday")
+.addEventListener(
+"input",
+()=>{
+
+if(db.micro){
+
+ensureMicro();
+
+db.micro.days[
+microIndex()
+]
+.update=
+$("microToday").value;
+
+scheduleSave();
+
+}
+
+}
+);
+
+
+$("quickTask")
+.addEventListener(
+"keydown",
+e=>{
+
+if(
+e.key==="Enter"
+){
+
+e.preventDefault();
+
+addTask();
+
+}
+
+}
+);
+
+
+[
+"cloudUrl",
+"cloudKey",
+"cloudId"
+]
+.forEach(
+id=>
+$(id)
+.addEventListener(
+"change",
+saveCloudSettings
+)
+);
+
+
+setInterval(
+checkReminders,
+15000
+);
+
+}
+
+
+const bind=
+(id,fn)=>
+$(id)
+.addEventListener(
+"click",
+fn
+);
+
+
+bind(
+"saveBtn",
+()=>
+saveDay(false)
+);
+
+bind(
+"nextBtn",
+nextDay
+);
+
+bind(
+"exportBtn",
+exportData
+);
+
+bind(
+"importBtn",
+()=>
+$("backupFile").click()
+);
+
+$("backupFile")
+.addEventListener(
+"change",
+e=>{
+
+importData(
+e.target.files[0]
+);
+
+e.target.value=
+"";
+
+}
+);
+
+bind(
+"clearBtn",
+clearAll
+);
+
+bind(
+"addTaskBtn",
+addTask
+);
+
+bind(
+"microStartBtn",
+startMicro
+);
+
+bind(
+"captureBtn",
+captureNote
+);
+
+bind(
+"completeBtn",
+completeDay
+);
+
+bind(
+"notifyBtn",
+enableNotifications
+);
+
+bind(
+"reminderBtn",
+addReminder
+);
+
+bind(
+"focusStartBtn",
+startFocus
+);
+
+bind(
+"focusStopBtn",
+()=>
+stopFocus(false)
+);
+
+bind(
+"testCloudBtn",
+testCloud
+);
+
+bind(
+"uploadCloudBtn",
+uploadCloud
+);
+
+bind(
+"downloadCloudBtn",
+downloadCloud
+);
+
+
+document
+.querySelectorAll(
+".mode"
+)
+.forEach(
+e=>
+
+e.addEventListener(
+"click",
+()=>{
+
+setMode(
+e.dataset.mode
+);
+
+scheduleSave();
+
+}
+)
+);
+
+
+if(
+document.readyState===
+"loading"
+)
+
+document.addEventListener(
+"DOMContentLoaded",
+init
+);
+
+else
+
+init();
+
+
+return{
+
+saveDay,
+nextDay,
+addTask,
+startMicro,
+captureNote,
+setMode,
+addReminder,
+enableNotifications,
+startFocus,
+stopFocus,
+testCloud,
+uploadCloud,
+downloadCloud,
+exportData,
+importData,
+completeDay,
+clearAll
+
+};
+
+})();
+</script>
+
+</body>
+</html>
